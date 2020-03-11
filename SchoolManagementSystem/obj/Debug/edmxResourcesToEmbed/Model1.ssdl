@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SchoolManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="basic_user_role">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="user_id" Type="int" Nullable="false" />
+    <Property Name="role_type_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="basic_users">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="password" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="role_type">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="role_name" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_basic_user_role_basic_users">
+    <End Role="basic_users" Type="Self.basic_users" Multiplicity="1" />
+    <End Role="basic_user_role" Type="Self.basic_user_role" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="basic_users">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="basic_user_role">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_basic_user_role_role_type">
+    <End Role="role_type" Type="Self.role_type" Multiplicity="1" />
+    <End Role="basic_user_role" Type="Self.basic_user_role" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="role_type">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="basic_user_role">
+        <PropertyRef Name="role_type_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="SchoolManagementModelStoreContainer">
+    <EntitySet Name="basic_user_role" EntityType="Self.basic_user_role" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="basic_users" EntityType="Self.basic_users" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="role_type" EntityType="Self.role_type" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_basic_user_role_basic_users" Association="Self.FK_basic_user_role_basic_users">
+      <End Role="basic_users" EntitySet="basic_users" />
+      <End Role="basic_user_role" EntitySet="basic_user_role" />
+    </AssociationSet>
+    <AssociationSet Name="FK_basic_user_role_role_type" Association="Self.FK_basic_user_role_role_type">
+      <End Role="role_type" EntitySet="role_type" />
+      <End Role="basic_user_role" EntitySet="basic_user_role" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
